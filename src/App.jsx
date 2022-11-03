@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import About from "./About";
 import ErrorPage from "./ErrorPage";
@@ -11,8 +11,14 @@ import Index from "./HomeContent";
 import Repo from "./Repo";
 
 function App() {
+  const navigate = useNavigate();
   return (
-    <ErrorBoundary FallbackComponent={Fallback}>
+    <ErrorBoundary
+      FallbackComponent={Fallback}
+      onReset={() => {
+        navigate("/");
+      }}
+    >
       <div className="container">
         <Routes>
           <Route path="/" element={<Home />}>
@@ -20,10 +26,9 @@ function App() {
             <Route path="errortest" element={<ErrorTest />} />
             <Route path="about" element={<About />} />
             <Route path="/repos">
-            <Route index element={<Repos />} />
-            <Route path=":name" element={<Repo/>}/>
-               </Route>
-            
+              <Route index element={<Repos />} />
+              <Route path=":name" element={<Repo />} />
+            </Route>
           </Route>
           <Route path="*" element={<ErrorPage />} />
         </Routes>
